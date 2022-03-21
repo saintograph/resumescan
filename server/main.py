@@ -5,11 +5,14 @@ import re
 import string
 import nltk
 from nltk.stem import WordNetLemmatizer
-nltk.download('stopwords')
-nltk.download('punkt')
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+
+nltk.download('stopwords')
+nltk.download('punkt')
+nltk.download('omw-1.4')
+nltk.download('wordnet')
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'foo'
@@ -20,17 +23,20 @@ def process_entry(resume, ad):
       res = re.sub(r'[^\w\s]', '', text)
       return res
   def tokenization(text):
-      res = nltk.sent_tokenize(text)
+      # res = nltk.sent_tokenize(text)
+      res = nltk.word_tokenize(text)
       return res
   def remove_stopwords(text):
       return [word for word in text if not word in stopwords.words()]
-  def lemmatizer(text):
-      res = [wordnet_lemmatizer.lemmatize(word) for word in text]
+  def lemmatizer_func(text):
+      lemmatizer = WordNetLemmatizer()
+      res = [lemmatizer.lemmatize(word) for word in text]
       return res
   def process_text(text):
     text = remove_punctuation(text)
     text = text.replace("\n", " ")
     text = tokenization(text)
+    text = lemmatizer_func(text)
     text = remove_stopwords(text)
     return text
   text = [" ".join(process_text(resume)), "".join(process_text(ad))]
