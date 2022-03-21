@@ -1,0 +1,27 @@
+<head>
+
+</head>
+
+<body>
+  <div class="content">
+    <form method="POST" action="/">
+      {{ form.csrf_token }}
+      <p>
+        {{ form.resume.label }}
+      </p>
+      {{ form.resume(rows=10, cols=50) }}
+      <p>
+        {{ form.ad.label }}
+      </p>
+      {{ form.ad(rows=10, cols=50) }}
+      </br>
+      <button type="submit">Submit</button>
+    </form>
+    <p>Percent Match: 
+    {% if result != None %}
+      {{ result }}
+    {% endif %}
+    %
+    </p>
+  </div>
+</body>
