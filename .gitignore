@@ -1,2 +1,4 @@
 .ipynb_checkpoints
 win_venv
+__pycache__
+*.index
